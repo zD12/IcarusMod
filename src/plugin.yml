@@ -1,7 +1,7 @@
 name: IcarusMod
 version: 1.0
 description: The custom plugin for the Superior Freedom Network!
-authors: [Wild1145, Camzie99, Hockeyfan360]
+authors: [Wild1145, Camzie99, Hockeyfan360, Paul19988]
 main: com.superiornetworks.icarus.IcarusMod
 
 commands:
@@ -38,3 +38,15 @@ commands:
   saconfig:
     description: Admin management.
     usage: /<command> <list|add <player> [rank]|delete <player>>
+  opall:
+    description: Op all online players.
+    usage: /<command>
+  tag:
+    description: Set someone's tag.
+    usage: /<command> <set:playername> <tag>
+  say:
+    description: Broadcast a message in chat.
+    usage: /<command> <message>
+  smite:
+    description: Smite a naughty player.
+    usage: /<command> <player>

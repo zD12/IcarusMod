@@ -21,7 +21,7 @@ public class ICM_Bans
         if (Bukkit.getPlayer(player) != null)
         {
             ip = Bukkit.getPlayer(player).getAddress().getAddress().getHostAddress();
-            Bukkit.getPlayer(player).kickPlayer("Banned:\n" + reason + " ~ " + sender.getName());
+            Bukkit.getPlayer(player).kickPlayer("§c§lYou have been banned!\nYou were banned for: §e" + reason + "\n§c§lBanned by: §e" + sender.getName());
         }
         else
         {
@@ -43,10 +43,10 @@ public class ICM_Bans
         statement.setString(4, ip);
         statement.executeUpdate();
     }
-    
+
     public static void removeBan(CommandSender sender, String player) throws SQLException
     {
-        if(!isBanned(player))
+        if (!isBanned(player))
         {
             sender.sendMessage(ChatColor.RED + player + " is not banned.");
         }
@@ -61,26 +61,26 @@ public class ICM_Bans
 
     public static String getReason(String player) throws SQLException
     {
-        if(!isBanned(player))
+        if (!isBanned(player))
         {
             return ChatColor.RED + player + " is not banned.";
         }
         Object obj = ICM_SqlHandler.getFromTable("playerName", player, "banReason", "bans");
-        if(obj instanceof String)
+        if (obj instanceof String)
         {
             return (String) obj;
         }
         return ChatColor.RED + "No reason given...";
     }
-    
+
     public static String getBanner(String player) throws SQLException
     {
-        if(!isBanned(player))
+        if (!isBanned(player))
         {
             return ChatColor.RED + "Player is not banned.";
         }
         Object obj = ICM_SqlHandler.getFromTable("playerName", player, "senderName", "bans");
-        if(obj instanceof String)
+        if (obj instanceof String)
         {
             return (String) obj;
         }

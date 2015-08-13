@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import net.pravian.bukkitlib.command.BukkitCommand;
-import net.pravian.bukkitlib.command.CommandPermissions;
-import net.pravian.bukkitlib.command.SourceType;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -22,12 +19,11 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@CommandPermissions(source = SourceType.ANY, permission = "")
-public class Command_saconfig extends BukkitCommand
+@CommandParameters(name = "saconfig", description = "Access and change admin information", usage = "/saconfig <list | <add | delete> <username>>", rank = ICM_Rank.Rank.OP)
+public class Command_saconfig
 {
 
-    @Override
-    public boolean run(CommandSender sender, Command cmd, String label, String[] args)
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args)
     {
         if (args.length == 1)
         {
@@ -113,11 +109,11 @@ public class Command_saconfig extends BukkitCommand
             {
                 if (ICM_Rank.isRankOrHigher(player, ICM_Rank.getRank(sender)) && sender instanceof Player)
                 {
-                    sender.sendMessage("You can only remove someone of a lower rank than yourself from admin.");
+                    sender.sendMessage("You may only remove someone from admin if they are a lower rank than you.");
                     return true;
                 }
                 ICM_Rank.setRank(player.getName(), ICM_Rank.Rank.OP);
-                ICM_Utils.adminAction(sender.getName(), "removing " + player.getName() + " from the admin list.", true);
+                ICM_Utils.adminAction(sender.getName(), "Removing " + player.getName() + " from the admin list.", true);
                 return true;
             }
             if (args[0].equalsIgnoreCase("add"))
@@ -138,7 +134,7 @@ public class Command_saconfig extends BukkitCommand
                     }
                 }
                 ICM_Rank.setRank(player.getName(), ICM_Rank.Rank.SUPER);
-                ICM_Utils.adminAction(sender.getName(), "adding " + player.getName() + " to Super Admin.", false);
+                ICM_Utils.adminAction(sender.getName(), "Adding " + player.getName() + " to Super Admin.", false);
                 return true;
             }
             return false;
@@ -153,7 +149,7 @@ public class Command_saconfig extends BukkitCommand
             player = Bukkit.getPlayer(args[1]);
             if (player == null)
             {
-                sender.sendMessage("Player: " + args[1] + " is not online.");
+                sender.sendMessage(args[1] + " is not online.");
                 return true;
             }
             int level;
@@ -173,7 +169,7 @@ public class Command_saconfig extends BukkitCommand
             }
             if (!ICM_Rank.isRankOrHigher(sender, level))
             {
-                sender.sendMessage(ChatColor.RED + "You can only add someone to a rank lower than yourself.");
+                sender.sendMessage(ChatColor.RED + "You may only add someone to a rank that's lower than yours.");
                 return true;
             }
             if (ICM_Rank.getRank(player).level == -1)
@@ -192,7 +188,7 @@ public class Command_saconfig extends BukkitCommand
                 }
             }
             ICM_Rank.setRank(player.getName(), ICM_Rank.getFromLevel(level));
-            ICM_Utils.adminAction(sender.getName(), "adding " + player.getName() + " to " + ICM_Rank.getFromLevel(level).name + ".", false);
+            ICM_Utils.adminAction(sender.getName(), "Adding " + player.getName() + " to " + ICM_Rank.getFromLevel(level).name + ".", false);
             return true;
         }
         return false;

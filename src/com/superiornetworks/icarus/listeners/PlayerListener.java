@@ -4,13 +4,17 @@ import com.superiornetworks.icarus.IcarusMod;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBurnEvent;
+import org.bukkit.event.block.BlockFromToEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -31,7 +35,7 @@ public class PlayerListener implements Listener
         plugin.developmentMode.onUncancelledPlayerJoin(event);
         plugin.joinModule.onPlayerJoin(event);
     }
-    
+
     @EventHandler
     public void onCommandPreprocess(PlayerCommandPreprocessEvent event)
     {
@@ -39,11 +43,11 @@ public class PlayerListener implements Listener
         plugin.commandSpyModule.onCommandPreprocess(event);
         plugin.imposterModule.onCommandPreprocess(event);
     }
-    
+
     @EventHandler
-    public void onPlayerLoginEvent(PlayerLoginEvent event)
+    public void onPlayerLoginEvent(PlayerJoinEvent event)
     {
-        plugin.loginModule.onPlayerLoginEvent(event);
+        plugin.joinModule.onPlayerJoin(event);
     }
 
     @EventHandler
@@ -64,6 +68,7 @@ public class PlayerListener implements Listener
     {
         plugin.busySystem.onPlayerQuit(event);
         plugin.developmentMode.onPlayerQuit(event);
+        plugin.joinModule.onPlayerQuit(event);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.NORMAL)
@@ -78,7 +83,7 @@ public class PlayerListener implements Listener
     {
         plugin.chatModule.onChat(event);
     }
-    
+
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event)
     {
@@ -91,4 +96,33 @@ public class PlayerListener implements Listener
         plugin.doomHammer.onPlayerUseItem(event);
     }
 
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event)
+    {
+        plugin.blockControl.onBlockPlace(event);
+    }
+    
+    @EventHandler
+    public void onBlockIgnite(BlockIgniteEvent event)
+    {
+        plugin.blockControl.onBlockIgnite(event);
+    }
+    
+    @EventHandler
+    public void onBlockBurn(BlockBurnEvent event)
+    {
+        plugin.blockControl.onBlockBurn(event);
+    }
+    
+    @EventHandler
+    public void onEntityExplode(EntityExplodeEvent event)
+    {
+        plugin.blockControl.onEntityExplode(event);
+    }
+    
+    @EventHandler
+    public void onBlockFromTo(BlockFromToEvent event)
+    {
+        plugin.blockControl.onBlockFromTo(event);
+    }
 }
